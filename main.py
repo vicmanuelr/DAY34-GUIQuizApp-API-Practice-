@@ -7,7 +7,7 @@ from ui import QuizzInterface
 questions = [Question(q_text=BeautifulSoup(question["question"], "html.parser"), q_answer=question["correct_answer"])
              for question in question_data]
 quiz = QuizBrain(questions)
-quiz_ui = QuizzInterface()
+quiz_ui = QuizzInterface(quiz)
 
 # while quiz.still_has_questions():
 #     quiz.next_question()
