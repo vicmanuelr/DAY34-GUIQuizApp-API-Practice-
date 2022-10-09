@@ -11,6 +11,7 @@ class QuizzInterface:
         self.window = Tk()
         self.window.title("Quizzler")
         self.window.configure(bg=THEME_COLOR, padx=20, pady=20)
+        self.timer = None
         # configure canvas
         self.canvas = Canvas(bg="white", width=300, height=250)
         self.canvas.grid(column=0, row=1, columnspan=2, padx=20, pady=20)
@@ -30,11 +31,33 @@ class QuizzInterface:
         self.window.mainloop()
 
     def get_next_question(self):
-        q_text = self.quiz.next_question()
-        self.canvas.itemconfigure(self.question, text=q_text)
+        self.canvas.configure(background="white")
+        if self.quiz.still_has_questions():
+            if self.timer is not None:
+                self.window.after_cancel(self.timer)
+            q_text = self.quiz.next_question()
+            self.canvas.itemconfigure(self.question, text=q_text)
+        else:
+            self.game_end()
 
     def true_answer(self):
-        user_got_right_answer = self.quiz.check_answer("True")
+        self.give_feedback(self.quiz.check_answer("True"))
 
     def false_answer(self):
-        user_got_right_answer = self.quiz.check_answer("False")
+        self.give_feedback(self.quiz.check_answer("False"))
+
+    def give_feedback(self, is_right):
+        if is_right:
+            self.canvas.configure(background="green")
+            self.score.configure(text=f"Score: {self.quiz.score}")
+            self.timer = self.window.after(1000, func=self.get_next_question)
+        else:
+            self.canvas.configure(background="red")
+            self.timer = self.window.after(1000, func=self.get_next_question)
+
+    def game_end(self):
+        self.canvas.itemconfigure(self.question, text=f"You've completed the quiz."
+                                                      f"\nYour final score is: "
+                                                      f"{self.quiz.score}/{self.quiz.question_number}")
+        self.true_button.config(state="disabled")
+        self.false_button.config(state="disabled")

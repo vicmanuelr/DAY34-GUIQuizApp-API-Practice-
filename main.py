@@ -8,8 +8,3 @@ questions = [Question(q_text=BeautifulSoup(question["question"], "html.parser"),
              for question in question_data]
 quiz = QuizBrain(questions)
 quiz_ui = QuizzInterface(quiz)
-
-# while quiz.still_has_questions():
-#     quiz.get_next_question()
-
-print(f"You've completed the quiz.\nYour final score is: {quiz.score}/{quiz.question_number}")
