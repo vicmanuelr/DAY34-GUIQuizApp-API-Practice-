@@ -35,6 +35,6 @@ class QuizzInterface:
 
     def true_answer(self):
         user_got_right_answer = self.quiz.check_answer("True")
-        
+
     def false_answer(self):
         user_got_right_answer = self.quiz.check_answer("False")
