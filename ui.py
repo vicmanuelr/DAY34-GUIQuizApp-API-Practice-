@@ -19,8 +19,8 @@ class QuizzInterface:
         # buttons configuration
         self.true_img = PhotoImage(file="./images/true.png")
         self.false_img = PhotoImage(file="./images/false.png")
-        self.true_button = Button(image=self.true_img, highlightthickness=0)
-        self.false_button = Button(image=self.false_img, highlightthickness=0)
+        self.true_button = Button(image=self.true_img, highlightthickness=0, command=self.true_answer)
+        self.false_button = Button(image=self.false_img, highlightthickness=0, command=self.false_answer)
         self.true_button.grid(column=0, row=2, padx=20, pady=20)
         self.false_button.grid(column=1, row=2, padx=20, pady=20)
         # score tag
@@ -32,3 +32,9 @@ class QuizzInterface:
     def get_next_question(self):
         q_text = self.quiz.next_question()
         self.canvas.itemconfigure(self.question, text=q_text)
+
+    def true_answer(self):
+        user_got_right_answer = self.quiz.check_answer("True")
+        
+    def false_answer(self):
+        user_got_right_answer = self.quiz.check_answer("False")
