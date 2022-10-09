@@ -31,6 +31,8 @@ class QuizzInterface:
         self.window.mainloop()
 
     def get_next_question(self):
+        self.true_button.config(state="active")
+        self.false_button.config(state="active")
         self.canvas.configure(background="white")
         if self.quiz.still_has_questions():
             if self.timer is not None:
@@ -50,9 +52,13 @@ class QuizzInterface:
         if is_right:
             self.canvas.configure(background="green")
             self.score.configure(text=f"Score: {self.quiz.score}")
+            self.true_button.config(state="disabled")
+            self.false_button.config(state="disabled")
             self.timer = self.window.after(1000, func=self.get_next_question)
         else:
             self.canvas.configure(background="red")
+            self.true_button.config(state="disabled")
+            self.false_button.config(state="disabled")
             self.timer = self.window.after(1000, func=self.get_next_question)
 
     def game_end(self):
